@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<opencv_storage>
+<calibration_date>"03/12/20 12:49:03"</calibration_date>
+<rotation_matrix type_id="opencv-matrix">
+  <rows>3</rows>
+  <cols>3</cols>
+  <dt>d</dt>
+  <data>
+    2.8168e-002 9.9958e-001 -6.4497e-003 -1.820e-003 6.50359e-003 9.99977e-001 9.9960e-001 -2.81557e-002 2.002935e-003</data></rotation_matrix>
+<translation_vector type_id="opencv-matrix">
+  <rows>3</rows>
+  <cols>1</cols>
+  <dt>d</dt>
+  <data>
+    -1.1300 8.1531e-001 1.784</data></translation_vector>
+</opencv_storage>
