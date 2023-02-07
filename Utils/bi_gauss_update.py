@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-from post_process_numpy import pol2cord
+#from Models.RodNetFusion_orent_velo.post_process_numpy_neu import pol2cord
 import matplotlib.image as mpimg
 
 def velo_map(anno,orent_map):
@@ -19,17 +19,13 @@ def bi_var_gauss(anno,vect):
     center_map = np.zeros((2,256,256))
     orent_map = np.zeros((2,64,64))
     for cnt,cls in enumerate(anno['cls']):
-        if type(anno['orent']) is not list:
-            anno['orent'] = [anno['orent']]
 
         sigma_r = anno['sigma_r'][cnt]
         sigma_a = anno['sigma_a'][cnt]
         mu = [anno['mu_r'][cnt],anno['mu_a'][cnt]]
-        if cnt>0:
-             row = anno['sigma_cov'][1][1]
-        else:
-            row = anno['sigma_cov'][0][0]
-        
+  
+        row = anno['sigma_cov'][cnt]
+
         i_mat = np.arange(map.shape[1])
         i_mat = np.reshape(i_mat,(map.shape[1],1))
         i_mat = np.tile(i_mat,(1,map.shape[1]))
@@ -53,19 +49,32 @@ def bi_var_gauss(anno,vect):
     return map.astype('float32'),center_map.astype('float32'),orent_map.astype('float32')
         
 
+def plain_gauss(anno, s_r=15, s_a=15):
+    map = np.zeros((3,256,256))
 
+    for cnt,cls in enumerate(anno['cls']):
+        if type(anno['orent']) is not list:
+            anno['orent'] = [anno['orent']]
 
+        sigma_r = s_r
+        sigma_a = s_a
+        mu = [anno['mu_r'][cnt],anno['mu_a'][cnt]]
+  
+        row = 0
 
+        i_mat = np.arange(map.shape[1])
+        i_mat = np.reshape(i_mat,(map.shape[1],1))
+        i_mat = np.tile(i_mat,(1,map.shape[1]))
 
+        j_mat = np.arange(map.shape[1])
+        j_mat = np.tile(j_mat,(map.shape[1],1))
 
+        dist = ((i_mat-mu[0])/(sigma_r))**2 + ((j_mat-mu[1])/(sigma_a))**2 -2*row*(i_mat-mu[0])/(sigma_r)*(j_mat-mu[1])/(sigma_a)
+        dist = dist/(2*(1-row**2))
 
+        map[int(cls-1),::] = np.amax((np.stack((map[int(cls-1),::],np.exp(-dist)),axis=0)),axis=0)
 
-
-
-
-
-
-
+    return map.astype('float32')
 
 
 def gauss_parameters(map,box):
