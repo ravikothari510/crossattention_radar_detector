@@ -1,6 +1,8 @@
 from matplotlib.pyplot import axis
 import numpy as np
 from scipy import interpolate
+import torch
+import random
 
 def polToCart(map):
     y = np.linspace(50,0,256)
@@ -45,3 +47,11 @@ def pol2cart(r,a):
     y = r*np.cos(theta)
     x = r*np.sin(theta)
     return get_index(x,y)
+
+def noise_add(r_map, device):
+
+    if random.choice([0,1]) and r_map != 0:
+        noise_map = torch.normal(0, 0.1, size=r_map.shape).to(device=device)
+        return r_map+noise_map
+    else:
+        return r_map

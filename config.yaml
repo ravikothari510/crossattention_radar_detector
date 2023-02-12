@@ -1,0 +1,14 @@
+SOLVER:
+  LEARNING_RATE: 1e-4
+  BATCH_SIZE: 16
+  NUM_EPOCHS: 80
+  NUM_WORKERS: 4
+LOSS:
+  WEIGHT_GAUSS: 1
+  WEIGHT_CENTER: 1
+  WEIGHT_OREN: 10
+CLASS_WT: # class weight due to dataset imbalance
+  PED: 1.33
+  CYC: 2.81
+  CAR: 0.86 
+
