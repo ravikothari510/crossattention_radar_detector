@@ -1,8 +1,37 @@
 from matplotlib.pyplot import axis
 import numpy as np
 from scipy import interpolate
+from torchvision import transforms
 import torch
 import random
+
+
+def data_transform():
+    rad = {}
+    ra_transform = transforms.Compose([
+    transforms.Normalize(
+        mean = [678.5],
+        std = [1352.6]
+    )])
+
+    rd_transform = transforms.Compose([
+        transforms.Normalize(
+            mean = [34.1],
+            std = [2.93]
+        )])
+             
+    ad_transform = transforms.Compose([
+        transforms.Normalize(
+            mean = [35.3],
+            std = [2.07]
+        )])
+
+    rad['ra_map'] = ra_transform
+    rad['rd_map'] = rd_transform
+    rad['ad_map'] = ad_transform
+    return rad
+
+
 
 def polToCart(map):
     y = np.linspace(50,0,256)

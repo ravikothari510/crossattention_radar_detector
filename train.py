@@ -11,8 +11,8 @@ from torch.utils.tensorboard import SummaryWriter
 
 from Utils.loss import focalloss, centerloss, l2loss
 from Utils.dataloader import load_data
-from Utils.transform import noise_add
-from Utils.val_utils import check_accuracy, save_checkpoint
+from Utils.transform import noise_add, data_transform
+from Utils.val_utils import check_accuracy, save_checkpoint, evaluation
 
 
 '''
@@ -26,30 +26,7 @@ save weights dir
 
 
 
-def data_transform():
-    rad = {}
-    ra_transform = transforms.Compose([
-    transforms.Normalize(
-        mean = [678.5],
-        std = [1352.6]
-    )])
 
-    rd_transform = transforms.Compose([
-        transforms.Normalize(
-            mean = [34.1],
-            std = [2.93]
-        )])
-             
-    ad_transform = transforms.Compose([
-        transforms.Normalize(
-            mean = [35.3],
-            std = [2.07]
-        )])
-
-    rad['ra_map'] = ra_transform
-    rad['rd_map'] = rd_transform
-    rad['ad_map'] = ad_transform
-    return rad
 
 def get_model(args):
     if args.model == 'RODNet':
@@ -164,7 +141,6 @@ def main():
 
     args = parser.parse_args()
 
-    print(args.config)
     with open(str(args.config),'r') as f:
         cfg = yaml.load(f, Loader=yaml.Loader)
 
@@ -240,6 +216,10 @@ def main():
             mfocal = mfocal_new
             filename = os.path.join(weight_dir, 'min_mfocal.pth.tar')
             save_checkpoint(checkpoint,filename)
+        
+        if epoch%5==0:
+            _ = evaluation(loader=val_loader, 
+                        model=model, args=args)
 
 
 if __name__ == '__main__':
