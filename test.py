@@ -1,12 +1,10 @@
-import os
 import argparse
 import yaml
-from tqdm import tqdm 
 
 import torch
 
-from Utils.dataloader import load_data, 
-from Utils.transform import noise_add, data_transform
+from Utils.dataloader import load_data
+from Utils.transform import data_transform
 from Utils.val_utils import evaluation, load_checkpoint
 
 def get_model(args):

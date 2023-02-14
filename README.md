@@ -67,5 +67,38 @@ dataset
             |- gauss
             |- orent
 ```
+To split the dataset in 70% Train, 15% Validation and 15% Test set, run the script ```data_split.py```. This saves the frames list per set in the data directory. 
 
+## Train
+The train script ```train.py``` requires the following arguments:
+```
+  --model {RODNet,Crossatten,RAMP}
+                        model name
+  --gauss {Gauss,Bivar}
+                        Type of gauss
+  --frame {1,2,3,4,5}   Number of past frames (max 5)
+  --no_class NO_CLASS   Number of classes
+  --co CO               Center offset loss activate
+  --oren OREN           Heading estimation
+  --config CONFIG       Config file path
+  --device DEVICE       Either cuda:0 or CPU
+  --tag TAG             an unique tag to save results
+  --data_dir DATA_DIR   Datset directory
+```
+Depending on the model type and number of frames used, the training time varies from 3-4 hours on NVIDIA V100 for 80 epochs. 
+For custom dataset, make sure to update class imbalance weights and FFT maps normalizing values. The script for helping functions are located in ```Utils/dataset ```.
+The training can be tracked with tensorboard. 
 
+## Evaluation 
+Evaluation script ```test.py``` prints the class based AP for a given distance threshold (default=2m). These are following results when tested with the above training schedule. 
+
+| Model | Input | GT | AP_2m Ped | AP_1m Ped | AP_2m Cyc | AP_1m Cyc | AP_2m Car | AP_1m Cyc | 
+| :---: | :---: | :---: | :---: | :---: | :---: |:---: | :---: |:---: |
+| [RODNet-CDC](https://openaccess.thecvf.com/content/WACV2021/papers/Wang_RODNet_Radar_Object_Detection_Using_Cross-Modal_Supervision_WACV_2021_paper.pdf) | RA | Gauss | 0.88 | 0.80 | 0.84 | 0.80 | 0.93 | 0.87 |
+| [RAMP-CNN](https://arxiv.org/abs/2011.08981) | RAD | Gauss | 0.89 | 0.82| 0.86 | 0.79 | 0.93 | 0.88 |
+| Cross Atten. | RAD | Gauss | 0.92 | 0.81 | 0.85 | 0.82 | 0.96 | 0.86 |
+| Cross Atten. + offset loss | RAD | Gauss | 0.91 | 0.82 | 0.86 | 0.84 | 0.94 | 0.86 |
+| Bivar Cross Atten. + offset loss | RAD | Bivariate | 0.91 | 0.8 | 0.93 | 0.88 | 0.97 | 0.91 |
+
+## Inference
+To Do 
