@@ -5,7 +5,7 @@ class Encode(nn.Module):
     def __init__(self,in_channels):
         super(Encode,self).__init__()
 
-        self.conv1a = nn.Conv2d(in_channels=64, kernel_size=(5,5), stride=(1,1), padding=(2,2))
+        self.conv1a = nn.Conv2d(in_channels=in_channels, out_channels=64, kernel_size=(5,5), stride=(1,1), padding=(2,2))
         self.conv1b = nn.Conv2d(in_channels =64, out_channels=64, kernel_size=(5,5), stride=(2,2), padding=(2,2))
         
         self.conv2a = nn.Conv2d(in_channels=64, out_channels=128, kernel_size=(5,5), stride=(1,1), padding=(2,2))

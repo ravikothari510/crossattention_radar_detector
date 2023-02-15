@@ -1,9 +1,9 @@
 import torch.nn as nn
 import torch
 
-from backbone import Encode, Decode
+from .backbone import Encode, Decode
 
-class CrossAttention(nn.module):
+class CrossAttention(nn.Module):
     def __init__(self):
         super(CrossAttention, self).__init__()
         self.softmax = nn.Softmax(dim=2)

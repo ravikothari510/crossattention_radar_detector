@@ -1,6 +1,6 @@
 import torch.nn as nn
 import torch
-from backbone import Encode, Decode
+from .backbone import Encode, Decode
 
 '''
 It's a 2D implementation of RAMP CNN with the inception module

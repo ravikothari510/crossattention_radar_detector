@@ -1,7 +1,7 @@
 import torch.nn as nn
 import torch
 
-from backbone import Encode, Decode
+from .backbone import Encode, Decode
 
 '''
 It'S a 2D CNN implemenation of RodNet-CDC 
