@@ -6,23 +6,8 @@ import torch
 from Utils.dataloader import load_data
 from Utils.transform import data_transform
 from Utils.val_utils import evaluation, load_checkpoint
+from Models.backbone import get_model
 
-def get_model(args):
-    if args.model == 'RODNet':
-        from Models.rodnet import RODNetCDC
-        model = RODNetCDC(in_channels=args.frame, n_class=args.no_class)
-    
-    if args.model == 'RAMP':
-        from Models.rampcnn import RAMPCNN
-        model = RAMPCNN(in_channels=args.frame, n_class=args.no_class)
-
-    if args.model == 'Crossatten':
-        from Models.cross_atten import RadarCross
-        model = RadarCross(in_channels=args.frame,
-                        n_class=args.no_class,
-                        center_offset=args.co,
-                        orentation=args.oren)
-    return model
 
 
 def main():
@@ -44,8 +29,6 @@ def main():
     parser.add_argument('--oren', help = 'Heading estimation', type=bool, default=0)
     parser.add_argument('--config', help='Config file path', default='config.yaml')
     parser.add_argument('--device', help='Either cuda:0 or CPU', default='cpu')
-    parser.add_argument('--tag', help='an unique tag to save results',
-                        default='exp1')
     parser.add_argument('--data_dir', help='Datset directory', default='dataset')
 
     args = parser.parse_args()

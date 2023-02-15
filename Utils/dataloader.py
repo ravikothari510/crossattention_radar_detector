@@ -36,16 +36,16 @@ class RadarData(Dataset):
 
         ra_map = torch.from_numpy(np.load(os.path.join(self.dataset_dir,\
             'fft_maps', seq, 'ra_map', frame_no + '.npy' )))[:self.no_frames,::]
-        ra_map = self.transform['ra'](ra_map)
+        ra_map = self.transform['ra_map'](ra_map)
 
         if self.rad:
             rd_map = torch.from_numpy(np.load(os.path.join(self.dataset_dir,\
                 'fft_maps', seq, 'rd_map', frame_no + '.npy' )))[:self.no_frames,::]
-            rd_map = self.transform['rd'](rd_map)
+            rd_map = self.transform['rd_map'](rd_map)
 
             ad_map = torch.from_numpy(np.load(os.path.join(self.dataset_dir,\
                 'fft_maps', seq, 'ad_map', frame_no + '.npy' )))[:self.no_frames,::]
-            ad_map = self.transform['ad'](ad_map)
+            ad_map = self.transform['ad_map'](ad_map)
 
         if self.orent:
             orent = torch.from_numpy(np.load(os.path.join(self.dataset_dir,\

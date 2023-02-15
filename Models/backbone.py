@@ -50,3 +50,19 @@ class Decode(nn.Module):
         return x
 
 
+def get_model(args):
+    if args.model == 'RODNet':
+        from Models.rodnet import RODNetCDC
+        model = RODNetCDC(in_channels=args.frame, n_class=args.no_class)
+    
+    if args.model == 'RAMP':
+        from Models.rampcnn import RAMPCNN
+        model = RAMPCNN(in_channels=args.frame, n_class=args.no_class)
+
+    if args.model == 'Crossatten':
+        from Models.cross_atten import RadarCross
+        model = RadarCross(in_channels=args.frame,
+                        n_class=args.no_class,
+                        center_offset=args.co,
+                        orentation=args.oren)
+    return model

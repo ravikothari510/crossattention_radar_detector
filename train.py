@@ -13,7 +13,7 @@ from Utils.loss import focalloss, centerloss, l2loss
 from Utils.dataloader import load_data
 from Utils.transform import noise_add, data_transform
 from Utils.val_utils import check_accuracy, save_checkpoint, evaluation
-
+from Models.backbone import get_model
 
 '''
 args based (rodnet, ramp, cross attention with or wo bivar, with or with center offset, with or without orientation)
@@ -24,26 +24,6 @@ tensor board
 save weights dir
 '''
 
-
-
-
-
-def get_model(args):
-    if args.model == 'RODNet':
-        from Models.rodnet import RODNetCDC
-        model = RODNetCDC(in_channels=args.frame, n_class=args.no_class)
-    
-    if args.model == 'RAMP':
-        from Models.rampcnn import RAMPCNN
-        model = RAMPCNN(in_channels=args.frame, n_class=args.no_class)
-
-    if args.model == 'Crossatten':
-        from Models.cross_atten import RadarCross
-        model = RadarCross(in_channels=args.frame,
-                        n_class=args.no_class,
-                        center_offset=args.co,
-                        orentation=args.oren)
-    return model
 
 def get_classweight(cfg):
     ped_w = float(cfg['CLASS_WT']['PED'])
