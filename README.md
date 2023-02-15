@@ -101,4 +101,4 @@ Evaluation script ```test.py``` prints the class based AP for a given distance t
 | Bivar Cross Atten. + offset loss | RAD | Bivariate | 0.91 | 0.8 | 0.93 | 0.88 | 0.97 | 0.91 |
 
 ## Inference
-To Do 
+`inference.py` can be run to check out few examples located in `demo/`. Currently it only supports the cross attention model with orentation and center-offset. The output is the predicted class with location and orentation. 

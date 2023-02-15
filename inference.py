@@ -21,6 +21,8 @@ def main():
     parser.add_argument('ckpt', help='model weights in .pth form')
     parser.add_argument('frame_name', help='name of the frame located in demo folder',
                         default=r'2019-09-16-13-25-35_000048')
+    parser.add_argument('conf_thresh', help='Confidence threshold for detection',
+                        default=0.6)
 
  
     parser.add_argument('--device', help='Either cuda:0 or CPU', default='cpu')
@@ -64,7 +66,8 @@ def main():
     mask = mask.to(device=device)
     peak_cls = peak_cls.to(device=device)
 
-    pred_intent, pred_idx = peaks_detect(pred_map, mask, peak_cls, heat_thresh=0.1)
+    pred_intent, pred_idx = peaks_detect(pred_map, mask, peak_cls,
+                                         heat_thresh=args.conf_thresh)
     pred_idx= distribute(pred_idx,device)
     pred_idx = update_peaks(pred_c, pred_idx)
     pred_idx, pred_intent= association(pred_intent, pred_idx, device)
@@ -76,6 +79,7 @@ def main():
         print(f"Class: {p_cls}, Confidence: {pred_intent[cnt]},\
             Range: {50*p_r/256}, Angle(deg): {p_c*57.29*2/256 - 57.29},\
             Heading: {orent(x_o[p_r,::],int(p_r//4), int(p_c//4), pred=True)}")
+
 
 if __name__ == '__main__':
     main()
