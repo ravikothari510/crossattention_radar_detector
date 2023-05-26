@@ -52,7 +52,7 @@ def main():
         for track in tracks:
             ra_map = np.zeros((5, 256, 256))
             rd_map = np.zeros((5, 256, 64))
-            ad_map = np.zeros((5, 256, 64))
+            ad_map = np.zeros((5, 64, 256))
             for i in range(5):
                 frame = str(track[i]).zfill(6)
                 ra_map[i, ::] = np.load(os.path.join(args.carrada_dir, seq,\
